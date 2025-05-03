@@ -18,7 +18,7 @@ services:
 
   db:
     container_name: weather_grid_service_db
-    image: postgres:17
+    image: postgis/postgis:17-3.4
     restart: unless-stopped
     environment:
       POSTGRES_USER: qwe

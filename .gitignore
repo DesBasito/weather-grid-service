@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+/data_db/
+/data_redis/
+/redis_dump.json

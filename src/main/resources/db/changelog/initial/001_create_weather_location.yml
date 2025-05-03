@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-weather-locations
+      author: abu
+      changes:
+        - createTable:
+            tableName: weather_locations
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: latitude
+                  type: DOUBLE PRECISION
+                  constraints:
+                    nullable: false
+              - column:
+                  name: longitude
+                  type: DOUBLE PRECISION
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+              - column:
+                  name: description
+                  type: TEXT
+
+        - addUniqueConstraint:
+            tableName: weather_locations
+            columnNames: latitude, longitude
+            constraintName: uq_weather_locations_lat_lon
+
+        - createIndex:
+            tableName: weather_locations
+            indexName: idx_weather_locations_lat_lon
+            columns:
+              - column:
+                  name: latitude
+              - column:
+                  name: longitude
