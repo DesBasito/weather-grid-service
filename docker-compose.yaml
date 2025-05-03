@@ -1,0 +1,46 @@
+networks:
+  weather_grid_service_net:
+
+services:
+  app:
+    container_name: weather_grid_service_app
+    image: weather_grid_service:latest
+    restart: unless-stopped
+    ports:
+      - "9778:9778"
+    depends_on:
+      - db
+    volumes:
+      - ./logs:/app/logs
+      - ./config:/app/config
+    networks:
+      - weather_grid_service_net
+
+  db:
+    container_name: weather_grid_service_db
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: qwe
+      POSTGRES_PASSWORD: qwe
+      POSTGRES_DB: weather_grid_service
+    ports:
+      - "9876:5432"
+    volumes:
+      - ./data_db:/var/lib/postgresql/data
+    logging:
+      options:
+        max-size: 100m
+    networks:
+      - weather_grid_service_net
+
+  redis:
+    container_name: weather_grid_service_redis
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./data_redis:/data
+    networks:
+      - weather_grid_service_net
