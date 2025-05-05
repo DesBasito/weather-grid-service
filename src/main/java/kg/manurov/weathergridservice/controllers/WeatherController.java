@@ -8,4 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/weather")
 @RequiredArgsConstructor
 public class WeatherController {
+
+
 }

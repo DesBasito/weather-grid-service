@@ -34,3 +34,4 @@ build/
 /data_db/
 /data_redis/
 /redis_dump.json
+/logs/
