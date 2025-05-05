@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 003-create-fields
+      id: 004-create-fields
       author: abu
       changes:
         - createTable:

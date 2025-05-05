@@ -1,13 +1,5 @@
 databaseChangeLog:
   - changeSet:
-      id: 002-enable-postgis
-      author: abu
-      changes:
-        - sql:
-            splitStatements: false
-            sql: CREATE EXTENSION IF NOT EXISTS postgis;
-
-  - changeSet:
       id: 003-create-weather-daily-history
       author: abu
       changes:

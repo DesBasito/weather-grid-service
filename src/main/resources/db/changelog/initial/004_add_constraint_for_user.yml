@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-create-fields
+      author: abu
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: fields
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_user_field_id

@@ -1,0 +1,13 @@
+databaseChangeLog:
+  -  changeSet:
+       id:  modifyDataType-on-fields
+       author:  abu
+       changes:
+         -  modifyDataType:
+              columnName:  user_id
+              newDataType:  bigint
+              tableName:  fields
+         - modifyDataType:
+             columnName: weather_location_id
+             newDataType: bigint
+             tableName: fields
