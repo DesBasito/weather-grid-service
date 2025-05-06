@@ -1,8 +1,10 @@
 package kg.manurov.weathergridservice.entities;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.ColumnDefault;
 import org.locationtech.jts.geom.Point;
 
@@ -14,38 +16,41 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "fields")
 public class Field {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    User user;
 
     @Column(name = "name")
-    private String name;
+    String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "weather_location_id")
-    private WeatherLocation weatherLocation;
+    WeatherLocation weatherLocation;
 
     @Column(name = "area_ha", precision = 10, scale = 2)
-    private BigDecimal areaHa;
+    BigDecimal areaHa;
 
     @Column(name = "crop_type", length = 100)
-    private String cropType;
+    String cropType;
 
     @Column(name = "irrigation_type", length = 50)
-    private String irrigationType;
+    String irrigationType;
 
     @ColumnDefault("now()")
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    LocalDateTime createdAt;
+
     @ColumnDefault("now()")
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    LocalDateTime updatedAt;
+
     @Column(name = "geometry", columnDefinition = "geometry")
-    private Point geometry;
+    Point geometry;
 }

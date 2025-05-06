@@ -1,56 +1,59 @@
 package kg.manurov.weathergridservice.entities;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @Setter
 @Entity
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "weather_daily_history")
 public class WeatherDailyHistory {
     @EmbeddedId
-    private WeatherDailyHistoryId id;
+    WeatherDailyHistoryId id;
 
     @MapsId("locationId")
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "location_id")
-    private WeatherLocation location;
+    WeatherLocation location;
 
     @Column(name = "temp_max")
-    private Double tempMax;
+    Double tempMax;
 
     @Column(name = "temp_min")
-    private Double tempMin;
+    Double tempMin;
 
     @Column(name = "temp_avg")
-    private Double tempAvg;
+    Double tempAvg;
 
     @Column(name = "precipitation_sum")
-    private Double precipitationSum;
+    Double precipitationSum;
 
     @Column(name = "humidity_avg")
-    private Double humidityAvg;
+    Double humidityAvg;
 
     @Column(name = "wind_speed_avg")
-    private Double windSpeedAvg;
+    Double windSpeedAvg;
 
     @Column(name = "wind_direction", length = 3)
-    private String windDirection;
+    String windDirection;
 
     @Column(name = "soil_moisture")
-    private Double soilMoisture;
+    Double soilMoisture;
 
     @Column(name = "pressure")
-    private Double pressure;
+    Double pressure;
 
     @Column(name = "cloud_cover")
-    private Double cloudCover;
+    Double cloudCover;
 
     @Column(name = "snow_depth")
-    private Double snowDepth;
+    Double snowDepth;
 
 }

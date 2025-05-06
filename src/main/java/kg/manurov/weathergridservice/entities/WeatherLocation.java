@@ -1,8 +1,10 @@
 package kg.manurov.weathergridservice.entities;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
@@ -13,32 +15,33 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "weather_locations")
 public class WeatherLocation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
     @Column(name = "latitude")
-    private Double latitude;
+    Double latitude;
 
     @Column(name = "longitude")
-    private Double longitude;
+    Double longitude;
 
     @ColumnDefault("now()")
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    LocalDateTime createdAt;
 
     @Column(name = "name")
-    private String name;
+    String name;
 
     @Column(name = "description", length = Integer.MAX_VALUE)
-    private String description;
+    String description;
 
     @OneToMany(mappedBy = "weatherLocation")
-    private Set<Field> fields = new LinkedHashSet<>();
+    Set<Field> fields = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "location")
-    private Set<WeatherDailyHistory> weatherDailyHistories = new LinkedHashSet<>();
+    Set<WeatherDailyHistory> weatherDailyHistories = new LinkedHashSet<>();
 
 }
