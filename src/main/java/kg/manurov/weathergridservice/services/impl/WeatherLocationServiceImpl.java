@@ -5,6 +5,7 @@ import kg.manurov.weathergridservice.repositories.WeatherLocationRepository;
 import kg.manurov.weathergridservice.services.interfaces.WeatherLocationService;
 import kg.manurov.weathergridservice.util.GeometryHelper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,23 +15,27 @@ import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class WeatherLocationServiceImpl implements WeatherLocationService {
     private final WeatherLocationRepository locationRepo;
 
     @Transactional
     @Override
     public Long getOrCreateLocationId(Double fieldLat, Double fieldLon) {
-        double cellLat = GeometryHelper.roundToCenter(fieldLat);
-        double cellLon = GeometryHelper.roundToCenter(fieldLon);
-
-        return locationRepo.findByLatitudeAndLongitude(cellLat, cellLon)
+        log.info("Getting or creating location for coordinates lat={}, lon={}", fieldLat, fieldLon);
+        return locationRepo.findByLatitudeAndLongitude(fieldLat, fieldLon)
                 .map(WeatherLocation::getId)
                 .orElseGet(() -> {
-                    WeatherLocation loc = new WeatherLocation();
-                    loc.setLatitude(cellLat);
-                    loc.setLongitude(cellLon);
-                    loc.setCreatedAt(LocalDateTime.now());
-                    return locationRepo.save(loc).getId();
+                    try {
+                        WeatherLocation loc = new WeatherLocation();
+                        loc.setLatitude(fieldLat);
+                        loc.setLongitude(fieldLon);
+                        loc.setCreatedAt(LocalDateTime.now());
+                        return locationRepo.save(loc).getId();
+                    } catch (Exception e) {
+                        log.error("Failed to create location for coordinates lat={}, lon={}: {}", fieldLat, fieldLon, e.getMessage());
+                        throw e;
+                    }
                 });
     }
 
@@ -39,6 +44,7 @@ public class WeatherLocationServiceImpl implements WeatherLocationService {
             key = "'Location_Id_' + #locationId",
             unless = "#result == null")
     public Long getByLocationId(Long locationId) {
+        log.info("Getting location by id={}", locationId);
         return locationRepo.findById(locationId)
                 .map(WeatherLocation::getId)
                 .orElseThrow(NoSuchElementException::new);

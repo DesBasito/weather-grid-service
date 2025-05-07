@@ -22,14 +22,17 @@ public class RedisConfig {
         return RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofMinutes(60))
                 .disableCachingNullValues()
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
+                .serializeValuesWith(RedisSerializationContext.SerializationPair
+                        .fromSerializer(new GenericJackson2JsonRedisSerializer()));
     }
 
     @Bean
     public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
         return (builder) -> builder
                 .withCacheConfiguration("forecast",
-                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofHours(2)));
+                        RedisCacheConfiguration
+                                .defaultCacheConfig()
+                                .entryTtl(Duration.ofHours(2)));
     }
 
     @Bean
