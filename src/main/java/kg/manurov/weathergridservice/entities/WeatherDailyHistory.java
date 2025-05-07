@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -12,16 +13,15 @@ import org.hibernate.annotations.OnDeleteAction;
 @Setter
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Accessors(chain = true)
 @Table(name = "weather_daily_history")
 public class WeatherDailyHistory {
     @EmbeddedId
     WeatherDailyHistoryId id;
 
-    @MapsId("locationId")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "location_id")
-    WeatherLocation location;
+
+    @Column(name = "location_id", insertable = false, updatable = false)
+    Long locationId;
 
     @Column(name = "temp_max")
     Double tempMax;

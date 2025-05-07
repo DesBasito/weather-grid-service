@@ -41,7 +41,4 @@ public class WeatherLocation {
     @OneToMany(mappedBy = "weatherLocation")
     Set<Field> fields = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "location")
-    Set<WeatherDailyHistory> weatherDailyHistories = new LinkedHashSet<>();
-
 }
