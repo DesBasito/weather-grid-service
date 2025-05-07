@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: change-pk-to-bigserial
+      author: abu
+      preConditions:
+        - onFail: MARK_RAN
+      changes:
+        # Изменяем тип PK-колонки id на bigserial во всех таблицах
+        - modifyDataType:
+            tableName: databasechangeloglock
+            columnName: id
+            newDataType: bigserial
+
+        - modifyDataType:
+            tableName: users
+            columnName: id
+            newDataType: bigserial
+
+        - modifyDataType:
+            tableName: weather_locations
+            columnName: id
+            newDataType: bigserial
+
+        - modifyDataType:
+            tableName: fields
+            columnName: id
+            newDataType: bigserial
+
+        # Для составного PK в weather_daily_history меняем только тип поля location_id
+        - modifyDataType:
+            tableName: weather_daily_history
+            columnName: location_id
+            newDataType: bigserial
