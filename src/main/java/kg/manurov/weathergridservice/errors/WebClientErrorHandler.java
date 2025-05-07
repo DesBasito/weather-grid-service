@@ -1,6 +1,5 @@
-package kg.manurov.weathergridservice.configs;
+package kg.manurov.weathergridservice.errors;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import reactor.core.publisher.Mono;
 

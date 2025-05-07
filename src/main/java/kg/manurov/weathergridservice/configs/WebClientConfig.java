@@ -1,5 +1,6 @@
 package kg.manurov.weathergridservice.configs;
 
+import kg.manurov.weathergridservice.errors.WebClientErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
