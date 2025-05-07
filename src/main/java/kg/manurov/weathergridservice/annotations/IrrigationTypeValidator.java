@@ -2,7 +2,6 @@ package kg.manurov.weathergridservice.annotations;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import kg.manurov.weathergridservice.enums.CropType;
 import kg.manurov.weathergridservice.enums.EnumInterface;
 import kg.manurov.weathergridservice.enums.IrrigationType;
 

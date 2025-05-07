@@ -9,8 +9,10 @@ import kg.manurov.weathergridservice.repositories.FieldRepository;
 import kg.manurov.weathergridservice.repositories.UserRepository;
 import kg.manurov.weathergridservice.services.interfaces.FieldService;
 import kg.manurov.weathergridservice.services.interfaces.WeatherLocationService;
+import kg.manurov.weathergridservice.util.GeometryHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,6 +29,16 @@ public class FieldServiceImpl implements FieldService {
 
     @Override
     public FieldDto create(FieldDto fieldDto) {
+        if (isFieldExist(fieldDto)) {
+            throw new IllegalArgumentException("Field with coordinates lat=" + fieldDto.getLatitude() + ", lon=" + fieldDto.getLongitude() + " already exists");
+        }
+        Field field = getMappedField(fieldDto);
+        fieldRepository.save(field);
+        log.info("Creating field {}", fieldDto);
+        return null;
+    }
+
+    private Field getMappedField(FieldDto fieldDto) {
         WeatherLocation weatherLocation = weatherLocationService
                 .getOrCreateLocation(fieldDto.getLatitude(), fieldDto.getLongitude());
         User user = userRepository.findById(fieldDto.getUserId())
@@ -37,8 +49,13 @@ public class FieldServiceImpl implements FieldService {
         field.setUser(user);
         field.setCreatedAt(LocalDateTime.now());
         field.setUpdatedAt(LocalDateTime.now());
-        fieldRepository.save(field);
-        log.info("Creating field {}", fieldDto);
-        return null;
+        return field;
+    }
+
+    private boolean isFieldExist(FieldDto fieldDto) {
+        double lat = GeometryHelper.roundToCenter(fieldDto.getLatitude());
+        double lon = GeometryHelper.roundToCenter(fieldDto.getLongitude());
+        Point point = GeometryHelper.createPoint(lat,lon);
+        return fieldRepository.existsByGeometry(point);
     }
 }
