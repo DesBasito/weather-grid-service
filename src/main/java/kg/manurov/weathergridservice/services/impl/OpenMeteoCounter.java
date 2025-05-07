@@ -1,11 +1,13 @@
 package kg.manurov.weathergridservice.services.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.atomic.AtomicLong;
 
 @Component
+@Slf4j
 public class OpenMeteoCounter {
     private static final long DAILY_LIMIT = 10_000;
     private final AtomicLong counter = new AtomicLong(0);
@@ -26,6 +28,6 @@ public class OpenMeteoCounter {
     @Scheduled(cron = "0 0 0 * * *")
     public void resetDailyLimit() {
         counter.set(0);
-        System.out.println("[OpenMeteo] Daily counter reset");
+        log.info("[OpenMeteo] Daily counter reset");
     }
 }
