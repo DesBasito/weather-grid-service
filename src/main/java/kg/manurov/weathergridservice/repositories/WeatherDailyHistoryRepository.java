@@ -2,6 +2,7 @@ package kg.manurov.weathergridservice.repositories;
 
 import kg.manurov.weathergridservice.entities.WeatherDailyHistory;
 import kg.manurov.weathergridservice.entities.WeatherDailyHistoryId;
+import kg.manurov.weathergridservice.repositories.projections.WeatherAggregateProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

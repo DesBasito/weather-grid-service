@@ -1,4 +1,4 @@
-package kg.manurov.weathergridservice.repositories;
+package kg.manurov.weathergridservice.repositories.projections;
 
 import java.time.LocalDate;
 

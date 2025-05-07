@@ -1,4 +1,4 @@
-package kg.manurov.weathergridservice.services.impl;
+package kg.manurov.weathergridservice.services.components;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;

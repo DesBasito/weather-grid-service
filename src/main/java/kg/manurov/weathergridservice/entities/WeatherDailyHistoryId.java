@@ -2,7 +2,9 @@ package kg.manurov.weathergridservice.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 
@@ -12,11 +14,13 @@ import java.util.Objects;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Embeddable
 public class WeatherDailyHistoryId implements Serializable {
     private static final long serialVersionUID = 2799902972488171253L;
     @Column(name = "location_id")
-    private Integer locationId;
+    private Long locationId;
 
     @Column(name = "date")
     private LocalDate date;
