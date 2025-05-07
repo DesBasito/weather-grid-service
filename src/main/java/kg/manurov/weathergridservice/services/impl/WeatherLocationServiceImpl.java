@@ -6,6 +6,8 @@ import kg.manurov.weathergridservice.services.interfaces.WeatherLocationService;
 import kg.manurov.weathergridservice.util.GeometryHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,20 +20,20 @@ import java.util.NoSuchElementException;
 @Slf4j
 public class WeatherLocationServiceImpl implements WeatherLocationService {
     private final WeatherLocationRepository locationRepo;
+    private final CacheManager cacheManager;
 
     @Transactional
     @Override
-    public Long getOrCreateLocationId(Double fieldLat, Double fieldLon) {
+    public WeatherLocation getOrCreateLocation(Double fieldLat, Double fieldLon) {
         log.info("Getting or creating location for coordinates lat={}, lon={}", fieldLat, fieldLon);
         return locationRepo.findByLatitudeAndLongitude(fieldLat, fieldLon)
-                .map(WeatherLocation::getId)
                 .orElseGet(() -> {
                     try {
                         WeatherLocation loc = new WeatherLocation();
                         loc.setLatitude(fieldLat);
                         loc.setLongitude(fieldLon);
                         loc.setCreatedAt(LocalDateTime.now());
-                        return locationRepo.save(loc).getId();
+                        return locationRepo.save(loc);
                     } catch (Exception e) {
                         log.error("Failed to create location for coordinates lat={}, lon={}: {}", fieldLat, fieldLon, e.getMessage());
                         throw e;

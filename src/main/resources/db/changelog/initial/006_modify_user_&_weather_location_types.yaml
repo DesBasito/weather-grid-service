@@ -1,0 +1,9 @@
+databaseChangeLog:
+  -  changeSet:
+       id:  modify-user_type-on-fields
+       author:  abu
+       changes:
+         -  modifyDataType:
+              columnName:  username
+              newDataType:  varchar
+              tableName:  users

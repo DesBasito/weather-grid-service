@@ -29,7 +29,7 @@ public class RedisConfig {
     @Bean
     public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
         return (builder) -> builder
-                .withCacheConfiguration("forecast",
+                .withCacheConfiguration("locationCache",
                         RedisCacheConfiguration
                                 .defaultCacheConfig()
                                 .entryTtl(Duration.ofHours(2)));

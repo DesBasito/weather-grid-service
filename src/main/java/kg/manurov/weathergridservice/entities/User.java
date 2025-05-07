@@ -20,7 +20,7 @@ public class User {
     Long id;
 
     @Column(name = "username")
-    Integer username;
+    String username;
 
     @OneToMany(mappedBy = "user")
     Set<Field> fields = new LinkedHashSet<>();

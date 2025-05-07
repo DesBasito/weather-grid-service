@@ -25,7 +25,7 @@ public class WeatherHistoryServiceImpl implements WeatherHistoryService {
     public List<WeatherHistoryDto> getHistory(Double latitude, Double longitude, LocalDate startDate, LocalDate endDate, String aggregate) {
         Double lat = GeometryHelper.roundToCenter(latitude);
         Double lon = GeometryHelper.roundToCenter(longitude);
-        Long locationId = weatherLocationService.getOrCreateLocationId(lat, lon);
+        Long locationId = weatherLocationService.getOrCreateLocation(lat, lon).getId();
 
         String dateExpr = switch (aggregate != null ? aggregate : "day") {
             case "month" -> "date_trunc('month', date)";

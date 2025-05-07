@@ -1,9 +1,10 @@
 package kg.manurov.weathergridservice.services.interfaces;
 
+import kg.manurov.weathergridservice.entities.WeatherLocation;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface WeatherLocationService {
-    Long getOrCreateLocationId(Double fieldLat, Double fieldLon);
+    WeatherLocation getOrCreateLocation(Double fieldLat, Double fieldLon);
 
     Long getByLocationId(Long locationId);
 }
