@@ -13,6 +13,7 @@ public class WebClientConfig {
         return builder
                 .baseUrl("https://api.open-meteo.com")
                 .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
+                .filter(WebClientErrorHandler.errorHandler())
                 .build();
     }
 }

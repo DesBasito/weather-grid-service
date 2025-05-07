@@ -19,10 +19,7 @@ import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.DoubleSummaryStatistics;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -34,7 +31,7 @@ public class DailyHistoryUpdateTask {
     private final WebClient openMeteoWebClient;
     private static final long PAUSE_MILLIS = 500L;
 
-    @Scheduled(cron = "0 0 1 * * *", zone = "Asia/Bishkek")
+    @Scheduled(cron = "0 * * * * *", zone = "Asia/Bishkek")
     public void updateDailyHistory() {
         LocalDate yesterday = LocalDate.now(ZoneId.of("Asia/Bishkek")).minusDays(1);
         log.info("Запуск ежедневного обновления истории погоды за {}", yesterday);
@@ -51,21 +48,12 @@ public class DailyHistoryUpdateTask {
 
     private void saveLoc(LocationIdCoord loc, LocalDate yesterday) {
         try {
-            // 1) Собираем URI с параметрами
             String uri = getUri(loc, yesterday);
 
             // 2) Запрашиваем и блокируем поток до ответа
             OpenMeteoCombinedResponse resp = openMeteoWebClient.get()
                     .uri(uri)
                     .retrieve()
-                    .onStatus(
-                            status -> status.is4xxClientError() || status.is5xxServerError(),
-                            response -> response.bodyToMono(String.class)
-                                    .flatMap(body -> {
-                                        log.error("Ошибка при запросе к Open-Meteo: статус={}, тело={}", response.statusCode(), body);
-                                        return Mono.error(new RuntimeException("Ошибка Open-Meteo: " + body));
-                                    })
-                    )
                     .bodyToMono(OpenMeteoCombinedResponse.class)
                     .block();
 
@@ -83,47 +71,22 @@ public class DailyHistoryUpdateTask {
     }
 
     private void saveCombined(LocationIdCoord loc, OpenMeteoCombinedResponse resp, LocalDate yesterday) {
-        // 1) daily
-        var d = resp.getDaily();
+        OpenMeteoDailyResponse.Daily d = resp.getDaily();
         double max = d.getTemperature2mMax().getFirst();
         double min = d.getTemperature2mMin().getFirst();
         double sum = d.getPrecipitationSum().getFirst();
 
-        // 2) hourly aggregation
-        var h = resp.getHourly();
-        DoubleSummaryStatistics stTemp = h.getTemperature2m().stream()
-                .filter(Objects::nonNull)
-                .mapToDouble(Double::doubleValue)
-                .summaryStatistics();
-        DoubleSummaryStatistics stHum  = h.getRelativeHumidity2m().stream()
-                .filter(Objects::nonNull)
-                .mapToDouble(Double::doubleValue)
-                .summaryStatistics();
-        DoubleSummaryStatistics stWind = h.getWindspeed10m().stream()
-                .filter(Objects::nonNull)
-                .mapToDouble(Double::doubleValue)
-                .summaryStatistics();
-        DoubleSummaryStatistics stCloud= h.getCloudcover().stream()
-                .filter(Objects::nonNull)
-                .mapToDouble(Double::doubleValue)
-                .summaryStatistics();
-        DoubleSummaryStatistics stSoil = h.getSoilMoisture().stream()
-                .filter(Objects::nonNull)
-                .mapToDouble(Double::doubleValue)
-                .summaryStatistics();
-        DoubleSummaryStatistics stPres = h.getPressureMsl().stream()
-                .filter(Objects::nonNull)
-                .mapToDouble(Double::doubleValue)
-                .summaryStatistics();
-        DoubleSummaryStatistics stSnow = h.getSnowDepth().stream()
-                .filter(Objects::nonNull)
-                .mapToDouble(Double::doubleValue)
-                .summaryStatistics();
+        OpenMeteoHourlyResponse.Hourly h = resp.getHourly();
+        DoubleSummaryStatistics stTemp  = summaryStats(h.getTemperature2m());
+        DoubleSummaryStatistics stHum   = summaryStats(h.getRelativeHumidity2m());
+        DoubleSummaryStatistics stWind  = summaryStats(h.getWindspeed10m());
+        DoubleSummaryStatistics stCloud = summaryStats(h.getCloudcover());
+        DoubleSummaryStatistics stSoil  = summaryStats(h.getSoilMoisture());
+        DoubleSummaryStatistics stPres  = summaryStats(h.getPressureMsl());
+        DoubleSummaryStatistics stSnow  = summaryStats(h.getSnowDepth());
 
-        // mode wind direction
         String modeDir = windDirection(h);
 
-        // 3) сохраняем
         WeatherDailyHistory hist = new WeatherDailyHistory();
         hist.setId(new WeatherDailyHistoryId(loc.getId(), yesterday))
                 .setLocationId(loc.getId())
@@ -152,6 +115,15 @@ public class DailyHistoryUpdateTask {
                 .orElse(h.getWinddirection10m().getFirst());
 
         return GeometryHelper.toCardinal(modeAngle);
+    }
+
+    private DoubleSummaryStatistics summaryStats(List<Double> data) {
+        return Optional.ofNullable(data)
+                .orElse(Collections.emptyList())
+                .stream()
+                .filter(Objects::nonNull)
+                .mapToDouble(Double::doubleValue)
+                .summaryStatistics();
     }
 
     private String getUri(LocationIdCoord loc, LocalDate yesterday) {
