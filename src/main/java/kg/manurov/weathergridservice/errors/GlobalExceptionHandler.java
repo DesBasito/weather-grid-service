@@ -1,6 +1,7 @@
 package kg.manurov.weathergridservice.errors;
 
 import kg.manurov.weathergridservice.services.interfaces.ErrorService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,11 +14,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.NoSuchElementException;
 
-@RestControllerAdvice
 @Slf4j
+@RestControllerAdvice
+@RequiredArgsConstructor
 public class GlobalExceptionHandler {
-    @Autowired
-    private ErrorService errorService;
+    private final ErrorService errorService;
+
     @ExceptionHandler(NoSuchElementException.class)
     public ErrorResponse noSuchElementException(NoSuchElementException e){
         log.error(e.getMessage());
@@ -44,6 +46,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponseBody> httpMethodException(HttpMessageNotReadableException ex){
+        log.error(ex.getMessage());
+        return new ResponseEntity<>(errorService.makeResponse(ex), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorResponseBody> httpMethodException(RuntimeException ex){
         log.error(ex.getMessage());
         return new ResponseEntity<>(errorService.makeResponse(ex), HttpStatus.CONFLICT);
     }
