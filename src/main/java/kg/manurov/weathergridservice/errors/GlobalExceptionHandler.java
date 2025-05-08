@@ -1,9 +1,9 @@
 package kg.manurov.weathergridservice.errors;
 
+import jakarta.validation.ConstraintViolationException;
 import kg.manurov.weathergridservice.services.interfaces.ErrorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -19,7 +19,6 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class GlobalExceptionHandler {
     private final ErrorService errorService;
-
     @ExceptionHandler(NoSuchElementException.class)
     public ErrorResponse noSuchElementException(NoSuchElementException e){
         log.error(e.getMessage());
@@ -30,6 +29,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseBody> nullPointerExceptions(NullPointerException e){
         log.error(e.getMessage());
         return new ResponseEntity<>(errorService.makeResponse(e), HttpStatus.NO_CONTENT);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponseBody> constraintException(ConstraintViolationException e){
+        log.error(e.getMessage());
+        return new ResponseEntity<>(errorService.makeResponse(e), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

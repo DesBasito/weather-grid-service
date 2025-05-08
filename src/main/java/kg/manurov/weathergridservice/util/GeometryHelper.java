@@ -10,10 +10,10 @@ public class GeometryHelper {
     private static final GeometryFactory geometryFactory = new GeometryFactory();
     public static final int SRID_WGS84 = 4326;
     private static final double GRID_STEP = 0.05;
-    private static final String[] CARDINALS = {"N","NE","E","SE","S","SW","W","NW"};
+    private static final String[] CARDINALS = {"Север", "Северо-восток", "Восток", "Юго-восток", "Юг", "Юго-запад", "Запад", "Северо-запад"};
 
     public String toCardinal(double degrees) {
-        int idx = (int)((degrees + 22.5) / 45.0) % 8;
+        int idx = (int) ((degrees + 22.5) / 45.0) % 8;
         return CARDINALS[idx];
     }
 
