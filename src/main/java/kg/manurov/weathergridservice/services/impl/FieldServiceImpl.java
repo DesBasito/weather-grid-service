@@ -29,13 +29,14 @@ public class FieldServiceImpl implements FieldService {
 
     @Override
     public FieldDto create(FieldDto fieldDto) {
-        if (isFieldExist(fieldDto)) {
+        boolean b = isFieldExist(fieldDto);
+        if (b) {
             throw new IllegalArgumentException("Field with coordinates lat=" + fieldDto.getLatitude() + ", lon=" + fieldDto.getLongitude() + " already exists");
         }
         Field field = getMappedField(fieldDto);
         fieldRepository.save(field);
         log.info("Creating field {}", fieldDto);
-        return null;
+        return fieldMapper.toDto(field);
     }
 
     private Field getMappedField(FieldDto fieldDto) {
@@ -55,7 +56,6 @@ public class FieldServiceImpl implements FieldService {
     private boolean isFieldExist(FieldDto fieldDto) {
         double lat = GeometryHelper.roundToCenter(fieldDto.getLatitude());
         double lon = GeometryHelper.roundToCenter(fieldDto.getLongitude());
-        Point point = GeometryHelper.createPoint(lat,lon);
-        return fieldRepository.existsByGeometry(point);
+        return fieldRepository.existsByGeometry(lon, lat);
     }
 }

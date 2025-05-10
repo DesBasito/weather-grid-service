@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: change-pk-to-bigserial
+      author: abu
+      preConditions:
+        - onFail: MARK_RAN
+      changes:
+        - modifyDataType:
+            tableName: weather_daily_history
+            columnName: wind_direction
+            newDataType: varchar(25)
