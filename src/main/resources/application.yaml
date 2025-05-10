@@ -1,6 +1,9 @@
 server:
   port: 9778
 spring:
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
   datasource:
     url: jdbc:postgresql://localhost:9876/weather_grid_service
     username: qwe

@@ -7,10 +7,9 @@ import kg.manurov.weathergridservice.enums.EnumInterface;
 import kg.manurov.weathergridservice.enums.IrrigationType;
 import kg.manurov.weathergridservice.util.GeometryHelper;
 import org.locationtech.jts.geom.Point;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 
-@Mapper(componentModel = "spring",imports = {EnumInterface.class, CropType.class, IrrigationType.class, GeometryHelper.class, Point.class})
+@Mapper(componentModel = "spring", imports = {EnumInterface.class, CropType.class, IrrigationType.class, GeometryHelper.class, Point.class})
 public interface FieldMapper {
     @Mapping(target = "latitude", expression = "java(field.getGeometry().getY())")
     @Mapping(target = "longitude", expression = "java(field.getGeometry().getX())")
@@ -29,4 +28,7 @@ public interface FieldMapper {
         double roundedLon = GeometryHelper.roundToCenter(lon);
         return GeometryHelper.createPoint(roundedLon, roundedLat);
     }
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    Field partialUpdate(FieldDto fieldDto, @MappingTarget Field field);
 }

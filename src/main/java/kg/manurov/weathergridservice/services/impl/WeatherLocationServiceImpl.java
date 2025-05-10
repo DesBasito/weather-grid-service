@@ -1,6 +1,8 @@
 package kg.manurov.weathergridservice.services.impl;
 
+import kg.manurov.weathergridservice.dto.WeatherLocationDto;
 import kg.manurov.weathergridservice.entities.WeatherLocation;
+import kg.manurov.weathergridservice.mapper.WeatherLocationMapper;
 import kg.manurov.weathergridservice.repositories.WeatherLocationRepository;
 import kg.manurov.weathergridservice.services.interfaces.WeatherLocationService;
 import kg.manurov.weathergridservice.util.GeometryHelper;
@@ -20,7 +22,7 @@ import java.util.NoSuchElementException;
 @Slf4j
 public class WeatherLocationServiceImpl implements WeatherLocationService {
     private final WeatherLocationRepository locationRepo;
-    private final CacheManager cacheManager;
+    private final WeatherLocationMapper mapper;
 
     @Transactional
     @Override
@@ -45,10 +47,10 @@ public class WeatherLocationServiceImpl implements WeatherLocationService {
     @Cacheable(value = "forecast",
             key = "'Location_Id_' + #locationId",
             unless = "#result == null")
-    public Long getByLocationId(Long locationId) {
+    public WeatherLocationDto getByLocationId(Long locationId) {
         log.info("Getting location by id={}", locationId);
         return locationRepo.findById(locationId)
-                .map(WeatherLocation::getId)
+                .map(mapper::toDto)
                 .orElseThrow(NoSuchElementException::new);
     }
 }
