@@ -12,7 +12,6 @@ import kg.manurov.weathergridservice.services.interfaces.WeatherLocationService;
 import kg.manurov.weathergridservice.util.GeometryHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -29,10 +28,7 @@ public class FieldServiceImpl implements FieldService {
 
     @Override
     public FieldDto create(FieldDto fieldDto) {
-        boolean b = isFieldExist(fieldDto);
-        if (b) {
-            throw new IllegalArgumentException("Field with coordinates lat=" + fieldDto.getLatitude() + ", lon=" + fieldDto.getLongitude() + " already exists");
-        }
+        isFieldExistAndWithinKg(fieldDto);
         Field field = getMappedField(fieldDto);
         fieldRepository.save(field);
         log.info("Creating field {}", fieldDto);
@@ -53,9 +49,14 @@ public class FieldServiceImpl implements FieldService {
         return field;
     }
 
-    private boolean isFieldExist(FieldDto fieldDto) {
+    private void isFieldExistAndWithinKg(FieldDto fieldDto) {
         double lat = GeometryHelper.roundToCenter(fieldDto.getLatitude());
         double lon = GeometryHelper.roundToCenter(fieldDto.getLongitude());
-        return fieldRepository.existsByGeometry(lon, lat);
+        if (!fieldRepository.isPointInKyrgyzstan(lon, lat)) {
+            throw new IllegalArgumentException("Координаты вне границ Кыргызстана");
+        }
+        if (fieldRepository.existsByGeometry(lon, lat)) {
+            throw new IllegalArgumentException("Поле с такими координатами уже существует");
+        }
     }
 }

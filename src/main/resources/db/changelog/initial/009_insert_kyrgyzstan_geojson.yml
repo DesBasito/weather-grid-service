@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 009-insert-kyrgyzstan-geojson
+      author: abu
+      changes:
+        - sqlFile:
+            path: 009_insert_kyrgyzstan_geojson.sql
+            relativeToChangelogFile: true
