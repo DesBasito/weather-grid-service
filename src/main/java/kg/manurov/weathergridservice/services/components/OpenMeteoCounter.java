@@ -21,10 +21,6 @@ public class OpenMeteoCounter {
         return DAILY_LIMIT - counter.get();
     }
 
-    public long getCurrent() {
-        return counter.get();
-    }
-
     @Scheduled(cron = "0 0 0 * * *")
     public void resetDailyLimit() {
         counter.set(0);

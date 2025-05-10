@@ -14,6 +14,7 @@ import lombok.experimental.FieldDefaults;
 @Accessors(chain = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FieldDto {
+    Long id;
 
     @NotNull(message = "Владелец поля обязателен для заполнения")
     Long userId;

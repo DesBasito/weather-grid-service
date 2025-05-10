@@ -46,17 +46,4 @@ public class RedisConfig {
                 .build();
         return new ReactiveRedisTemplate<>(factory, context);
     }
-
-//    @Bean
-//    public ObjectMapper objectMapper() {
-//        ObjectMapper mapper = new ObjectMapper();
-//        mapper.registerModule(new JavaTimeModule());
-//        return mapper;
-//    }
-
-//    @Bean
-//    public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
-//        return builder -> builder.modules(new JavaTimeModule());
-//    }
-
 }

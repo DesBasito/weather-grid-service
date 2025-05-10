@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -33,6 +34,12 @@ public class FieldServiceImpl implements FieldService {
         fieldRepository.save(field);
         log.info("Creating field {}", fieldDto);
         return fieldMapper.toDto(field);
+    }
+
+    @Override
+    public List<FieldDto> getAllFields() {
+        List<Field> fields = fieldRepository.findAll();
+        return fields.stream().map(fieldMapper::toDto).toList();
     }
 
     private Field getMappedField(FieldDto fieldDto) {
