@@ -4,12 +4,15 @@ networks:
 services:
   app:
     container_name: weather_grid_service_app
-    image: weather_grid_service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: unless-stopped
     ports:
       - "9778:9778"
     depends_on:
       - db
+      - redis
     volumes:
       - ./logs:/app/logs
       - ./config:/app/config
@@ -18,9 +21,11 @@ services:
 
   db:
     container_name: weather_grid_service_db
-    image: postgis/postgis:17-3.4
+    platform: linux/amd64
+    image: kartoza/postgis:15-3.3
     restart: unless-stopped
     environment:
+      POSTGRES_URL: jdbc:postgresql://db:5432/weather_grid_service
       POSTGRES_USER: qwe
       POSTGRES_PASSWORD: qwe
       POSTGRES_DB: weather_grid_service

@@ -1,11 +1,13 @@
 server:
   port: 9778
 spring:
+  application:
+    name: weather-grid-service
   jackson:
     serialization:
       write-dates-as-timestamps: false
   datasource:
-    url: jdbc:postgresql://localhost:9876/weather_grid_service
+    url: jdbc:postgresql://db:5432/weather_grid_service
     username: qwe
     password: qwe
     driver-class-name: org.postgresql.Driver
@@ -17,7 +19,7 @@ spring:
     show-sql: false
   data:
     redis:
-      host: localhost
+      host: redis
       port: 6379
       database: 0
   cache:
@@ -33,6 +35,7 @@ logging:
     liquibase: ERROR
     org.springframework.security: ERROR
     org.springframework.cache: DEBUG
+    org.springframework.boot.context.config: DEBUG
   logback:
     rolling policy:
       max-history: 5
