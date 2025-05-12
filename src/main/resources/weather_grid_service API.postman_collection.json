@@ -1,0 +1,544 @@
+{
+	"info": {
+		"_postman_id": "f5043b6b-f81a-4e95-945a-03a767f5f084",
+		"name": "weather_grid_service API",
+		"description": "weather_grid_service API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32969523"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "weather",
+					"item": [
+						{
+							"name": "forecast",
+							"item": [
+								{
+									"name": "GET api/weather/forecast",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/weather/forecast?latitude=<double>&longitude=<double>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"weather",
+												"forecast"
+											],
+											"query": [
+												{
+													"key": "latitude",
+													"value": "<double>",
+													"description": "(Required) "
+												},
+												{
+													"key": "longitude",
+													"value": "<double>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/weather/forecast?latitude=<double>&longitude=<double>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"weather",
+														"forecast"
+													],
+													"query": [
+														{
+															"key": "latitude",
+															"value": "<double>"
+														},
+														{
+															"key": "longitude",
+															"value": "<double>"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"locationId\": \"<long>\",\n  \"current_weather\": \"<string>\",\n  \"hourly\": \"<string>\",\n  \"daily\": \"<string>\"\n}"
+										}
+									]
+								},
+								{
+									"name": "GET api/weather/forecast/{id}",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/weather/forecast/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"weather",
+												"forecast",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "<long>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/weather/forecast/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"weather",
+														"forecast",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "<long>",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "<long>"
+										}
+									]
+								},
+								{
+									"name": "GET api/fields",
+									"request": {
+										"method": "GET",
+										"header": []
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": []
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "GET api/weather/history",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/weather/history?latitude=<double>&longitude=<double>&start_date=<date>&end_date=<date>&aggregate=day",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"weather",
+										"history"
+									],
+									"query": [
+										{
+											"key": "latitude",
+											"value": "<double>",
+											"description": "(Required) "
+										},
+										{
+											"key": "longitude",
+											"value": "<double>",
+											"description": "(Required) "
+										},
+										{
+											"key": "start_date",
+											"value": "<date>",
+											"description": "(Required) "
+										},
+										{
+											"key": "end_date",
+											"value": "<date>",
+											"description": "(Required) "
+										},
+										{
+											"key": "aggregate",
+											"value": "day"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/weather/history?latitude=<double>&longitude=<double>&start_date=<date>&end_date=<date>&aggregate=day",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"weather",
+												"history"
+											],
+											"query": [
+												{
+													"key": "latitude",
+													"value": "<double>"
+												},
+												{
+													"key": "longitude",
+													"value": "<double>"
+												},
+												{
+													"key": "start_date",
+													"value": "<date>"
+												},
+												{
+													"key": "end_date",
+													"value": "<date>"
+												},
+												{
+													"key": "aggregate",
+													"value": "day"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"date\": \"<date>\",\n    \"tempMax\": \"<double>\",\n    \"tempMin\": \"<double>\",\n    \"precipitationSum\": \"<double>\",\n    \"humidityAvg\": \"<double>\",\n    \"windSpeedAvg\": \"<double>\",\n    \"windDirection\": \"<string>\",\n    \"soilMoisture\": \"<double>\",\n    \"pressure\": \"<double>\",\n    \"cloudCover\": \"<double>\",\n    \"snowDepth\": \"<double>\"\n  },\n  {\n    \"date\": \"<date>\",\n    \"tempMax\": \"<double>\",\n    \"tempMin\": \"<double>\",\n    \"precipitationSum\": \"<double>\",\n    \"humidityAvg\": \"<double>\",\n    \"windSpeedAvg\": \"<double>\",\n    \"windDirection\": \"<string>\",\n    \"soilMoisture\": \"<double>\",\n    \"pressure\": \"<double>\",\n    \"cloudCover\": \"<double>\",\n    \"snowDepth\": \"<double>\"\n  }\n]"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "POST api/field",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"<long>\",\n  \"name\": \"<string>\",\n  \"areaHa\": \"<double>\",\n  \"cropType\": \"<string>\",\n  \"irrigationType\": \"<string>\",\n  \"longitude\": \"<double>\",\n  \"latitude\": \"<double>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/field",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"field"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"userId\": \"<long>\",\n  \"name\": \"<string>\",\n  \"areaHa\": \"<double>\",\n  \"cropType\": \"<string>\",\n  \"irrigationType\": \"<string>\",\n  \"longitude\": \"<double>\",\n  \"latitude\": \"<double>\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/field",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"field"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"userId\": \"<long>\",\n  \"name\": \"<string>\",\n  \"areaHa\": \"<double>\",\n  \"cropType\": \"<string>\",\n  \"irrigationType\": \"<string>\",\n  \"longitude\": \"<double>\",\n  \"latitude\": \"<double>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "POST api/backfill",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/backfill?start=<date>&end=<date>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"backfill"
+							],
+							"query": [
+								{
+									"key": "start",
+									"value": "<date>",
+									"description": "(Required) "
+								},
+								{
+									"key": "end",
+									"value": "<date>",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/backfill?start=<date>&end=<date>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"backfill"
+									],
+									"query": [
+										{
+											"key": "start",
+											"value": "<date>"
+										},
+										{
+											"key": "end",
+											"value": "<date>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "<string>"
+						}
+					]
+				},
+				{
+					"name": "POST api/users",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/users?username=<string>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "<string>",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/users?username=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"users"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "<long>"
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:9778",
+			"type": "string"
+		}
+	]
+}
