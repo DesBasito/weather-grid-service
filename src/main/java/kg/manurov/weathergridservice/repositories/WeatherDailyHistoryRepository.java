@@ -14,18 +14,17 @@ import java.util.List;
 public interface WeatherDailyHistoryRepository extends JpaRepository<WeatherDailyHistory, WeatherDailyHistoryId> {
 
     @Query(value = """
-        SELECT\s
-          date_trunc(:dateExpr, date)::date   AS date,
-          AVG(temp_max)                       AS tempMax,
-          AVG(temp_min)                       AS tempMin,
-          SUM(precipitation_sum)              AS precipitationSum,
-          AVG(humidity_avg)                   AS humidityAvg,
-          AVG(wind_speed_avg)                 AS windSpeedAvg,
-          MIN(wind_direction)                 AS windDirection,
-          AVG(soil_moisture)                  AS soilMoisture,
-          AVG(pressure)                       AS pressure,
-          AVG(cloud_cover)                    AS cloudCover,
-          AVG(snow_depth)                     AS snowDepth
+        SELECT (date_trunc(:dateExpr, date))::date AS date,
+               AVG(temp_max)                   AS tempMax,
+               AVG(temp_min)                   AS tempMin,
+               SUM(precipitation_sum)          AS precipitationSum,
+               AVG(humidity_avg)               AS humidityAvg,
+               AVG(wind_speed_avg)             AS windSpeedAvg,
+               MIN(wind_direction)             AS windDirection,
+               AVG(soil_moisture)              AS soilMoisture,
+               AVG(pressure)                   AS pressure,
+               AVG(cloud_cover)                AS cloudCover,
+               AVG(snow_depth)                 AS snowDepth
         FROM weather_daily_history
         WHERE location_id = :locationId
           AND date BETWEEN :startDate AND :endDate

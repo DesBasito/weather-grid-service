@@ -43,8 +43,10 @@ public class FieldServiceImpl implements FieldService {
     }
 
     private Field getMappedField(FieldDto fieldDto) {
+        double lat = GeometryHelper.roundToCenter(fieldDto.getLatitude());
+        double lon = GeometryHelper.roundToCenter(fieldDto.getLongitude());
         WeatherLocation weatherLocation = weatherLocationService
-                .getOrCreateLocation(fieldDto.getLatitude(), fieldDto.getLongitude());
+                .getOrCreateLocation(lat, lon);
         User user = userRepository.findById(fieldDto.getUserId())
                 .orElseThrow(() -> new NoSuchElementException("User with id=" + fieldDto.getUserId() + " not found"));
 
