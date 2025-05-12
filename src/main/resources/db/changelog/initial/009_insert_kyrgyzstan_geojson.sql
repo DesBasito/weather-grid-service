@@ -8,9 +8,9 @@ INSERT INTO country_boundaries(name, geom)
 VALUES (
 'Kyrgyzstan',ST_SetSRID(
 ST_GeomFromGeoJSON('{
-"type": "Polygon",
+"type": "MultiPolygon",
   "coordinates": [
-   [
+   [[
     [
      70.962315,
      42.266154
@@ -151,7 +151,7 @@ ST_GeomFromGeoJSON('{
      70.962315,
      42.266154
     ]
-   ]
+   ]]
   ]
     }'),
                 4326
