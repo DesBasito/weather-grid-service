@@ -27,7 +27,7 @@
 
     async function loadFields() {
         try {
-            const resp = await fetch('http://localhost:9788/api/fields');
+            const resp = await fetch('http://localhost:9778/api/fields');
             if (!resp.ok) throw new Error(resp.status + ' ' + resp.statusText);
             const fields = await resp.json();
 
